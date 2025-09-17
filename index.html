@@ -5,99 +5,125 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Puls — Credit Report (Demo)</title>
 
-<!-- ===== Styles (polished, no frameworks) ===== -->
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+<!-- Styles -->
 <style>
   :root{
-    --bg:#0b1020;             /* page background */
-    --surface:#0f172a;        /* header strip */
-    --paper:#ffffff;          /* cards */
-    --text:#0f172a;           /* main text */
-    --muted:#64748b;          /* secondary text */
-    --brand:#4f46e5;          /* primary */
-    --brand2:#7c3aed;         /* gradient end */
-    --ok:#16a34a; --warn:#f59e0b; --bad:#dc2626;
-    --line:#e5e7eb;           /* borders */
-    --shadow:0 12px 32px rgba(2,6,23,.08);
-    --r-lg:18px; --r-md:12px; --r-sm:10px;
+    --bg-top:#0b1020;                 /* верхняя подложка */
+    --bg:#f7f8fb;                     /* фоновая плоскость */
+    --text:#0b1220;                   /* основной текст */
+    --muted:#64748b;                  /* вторичный текст */
+    --card:#ffffff;                   /* карточки */
+    --line:#e9edf5;                   /* бордеры */
+    --brand:#4f46e5;                  /* primary */
+    --brand2:#7c3aed;                 /* gradient end */
+    --ok:#16a34a; --warn:#f59e0b; --bad:#ef4444;
+    --shadow-lg:0 20px 60px rgba(6,14,36,.12);
+    --shadow:0 10px 26px rgba(6,14,36,.08);
+    --r-xl:24px; --r-lg:18px; --r:14px; --r-sm:10px;
   }
   *{box-sizing:border-box}
   html,body{height:100%}
   body{
-    margin:0; background:linear-gradient(180deg, #0b1020 0%, #0b1020 280px, #f6f7fb 280px, #f6f7fb 100%);
-    color:var(--text);
-    font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+    margin:0; color:var(--text);
+    background:
+      linear-gradient(180deg, #0b1020 0, #0b1020 380px, var(--bg) 380px, var(--bg) 100%);
+    font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   }
-  a{color:inherit;text-decoration:none}
-  .wrap{max-width:1200px;margin:0 auto;padding:22px}
-  header.top{
+  .container{max-width:1280px; margin:0 auto; padding:0 28px;}
+  a{color:inherit; text-decoration:none}
+
+  /* Header */
+  .header{
     position:sticky; top:0; z-index:50;
-    background:linear-gradient(180deg, rgba(15,23,42,.85), rgba(15,23,42,.75));
-    color:#fff; border-bottom:1px solid rgba(255,255,255,.12);
     backdrop-filter:saturate(1.1) blur(10px);
+    background:linear-gradient(180deg, rgba(11,16,32,.86), rgba(11,16,32,.78));
+    border-bottom:1px solid rgba(255,255,255,.12);
   }
-  .topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;max-width:1200px;margin:0 auto}
-  .brand{display:flex;gap:10px;align-items:center}
-  .brand-dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand2))}
-  h1{font-size:16px;margin:0;font-weight:700;letter-spacing:.2px}
-  nav a{font-size:14px;margin:0 10px;color:#cbd5e1}
-  nav a.active, nav a:hover{color:#fff;text-decoration:underline}
+  .header__inner{height:72px; display:flex; align-items:center; justify-content:space-between;}
+  .brand{display:flex; align-items:center; gap:12px; color:#fff}
+  .brand-dot{width:12px;height:12px;border-radius:50%;
+    background:conic-gradient(from 210deg,var(--brand),var(--brand2),var(--brand)); box-shadow:0 0 0 3px rgba(255,255,255,.08); }
+  .brand-title{font-family:"Plus Jakarta Sans", Inter, system-ui; font-weight:800; letter-spacing:.2px}
 
-  .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:center}
-  .card{
-    background:var(--paper); border:1px solid var(--line);
-    border-radius:var(--r-lg); box-shadow:var(--shadow); padding:18px;
+  nav a{color:#dbe2f7; margin-left:18px; font-weight:600}
+  nav a.active, nav a:hover{color:#fff; text-decoration:underline}
+
+  /* Hero */
+  .hero{min-height:70vh; display:grid; grid-template-columns:1.2fr .8fr; gap:28px; align-items:center; padding:40px 0 56px;}
+  .hero h1{
+    font-family:"Plus Jakarta Sans", Inter, system-ui;
+    font-size: clamp(36px, 5vw, 56px); line-height:1.05; margin:0 0 14px; color:#fff;
+    letter-spacing:-.01em;
   }
-  .soft{background:linear-gradient(180deg,#ffffff 0%,#fcfcff 100%)}
+  .hero p{color:#bcc7e9; font-size:18px; margin:0 0 22px}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:var(--r-xl); box-shadow:var(--shadow-lg); padding:22px;}
+  .card--soft{background:linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);}
+  .kpi{padding:14px 16px; border:1px solid var(--line); border-radius:16px; background:#fff}
+  .kpi .v{font-size:20px; font-weight:800}
+  .progress{height:10px; background:#eef2ff; border-radius:999px; overflow:hidden}
+  .progress>i{display:block;height:100%; background:linear-gradient(90deg,var(--brand),var(--brand2))}
 
-  .grid{display:grid;gap:14px}
-  .cols2{grid-template-columns:1fr 400px;align-items:start}
-  .cols3{grid-template-columns:repeat(3,1fr)}
+  /* Buttons */
+  .btn{padding:14px 20px; border:0; border-radius:14px; font-weight:800; cursor:pointer; letter-spacing:.2px}
+  .btn-primary{color:#fff; background:linear-gradient(135deg, var(--brand), var(--brand2)); box-shadow:0 10px 24px rgba(79,70,229,.35)}
+  .btn-ghost{background:transparent; color:#0b1220; border:1px solid var(--line)}
+  .btn-quiet{background:transparent; color:#fff; border:1px solid rgba(255,255,255,.18)}
+
+  /* Layout blocks */
+  .section{padding:36px 0}
+  .grid{display:grid; gap:18px}
+  .cols2{grid-template-columns:1fr 440px; align-items:start}
   .cols4{grid-template-columns:repeat(4,1fr)}
-  @media (max-width: 980px){ .hero{grid-template-columns:1fr} .cols2{grid-template-columns:1fr} .cols3,.cols4{grid-template-columns:1fr} }
+  .cols3{grid-template-columns:repeat(3,1fr)}
+  @media (max-width: 1024px){ .hero{grid-template-columns:1fr; min-height:auto} .cols2{grid-template-columns:1fr} .cols4,.cols3{grid-template-columns:1fr}}
 
-  .btn{padding:11px 16px;border:0;border-radius:12px;font-weight:600;cursor:pointer}
-  .btn-primary{color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand2))}
-  .btn-ghost{background:#fff;border:1px solid var(--line);color:#111827}
-  .btn-link{background:transparent;border:0;color:var(--brand);padding:0}
-  .muted{color:var(--muted);font-size:13px}
-  .h2{font-size:22px;font-weight:800;margin:0 0 6px}
-  .h3{font-size:16px;font-weight:700;margin:0 0 8px}
-  .badge{display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700}
-  .badge-A{background:#eef2ff;color:#3730a3}
-  .badge-B{background:#ecfeff;color:#065f46}
+  /* Typography */
+  .h2{font-family:"Plus Jakarta Sans", Inter; font-weight:800; font-size:28px; margin:0 0 12px}
+  .h3{font-weight:800; font-size:18px; margin:0 0 8px}
+  .muted{color:var(--muted); font-size:14px}
+
+  /* Inputs */
+  label{display:block; font-size:13px; color:var(--muted); margin:12px 0 6px}
+  input[type="number"], input[type="text"], select{
+    width:100%; padding:12px 14px; border-radius:14px; border:1px solid var(--line); background:#fff; font-size:16px;
+  }
+
+  /* Tables */
+  .tbl{width:100%; border-collapse:collapse; font-size:14px}
+  .tbl th, .tbl td{border-bottom:1px solid var(--line); padding:12px 10px; text-align:left}
+  .tbl th{font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em}
+
+  /* Badges */
+  .badge{display:inline-block; padding:6px 12px; border-radius:999px; font-size:12px; font-weight:800}
+  .badge-A{background:#eef2ff;color:#312e81}
+  .badge-B{background:#ecfeff;color:#064e3b}
   .badge-C{background:#fff7ed;color:#9a3412}
   .badge-D{background:#fef2f2;color:#991b1b}
-  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 
-  label{display:block;font-size:13px;color:var(--muted);margin:10px 0 6px}
-  input[type="number"],input[type="text"],select{
-    width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--line);font-size:15px;background:#fff
-  }
-
-  .kpi{padding:14px;border:1px solid var(--line);border-radius:14px;background:#fff}
-  .kpi .v{font-size:20px;font-weight:800}
-  .bar{height:10px;border-radius:999px;background:#edf2ff;overflow:hidden}
-  .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand2))}
-
-  .tbl{width:100%;border-collapse:collapse;font-size:14px}
-  .tbl th,.tbl td{border-bottom:1px solid var(--line);padding:10px 8px;text-align:left}
-  .tbl th{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
-
+  .row{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
   .hidden{display:none!important}
-  footer.site{margin:28px 0 12px;color:#cbd5e1;display:flex;justify-content:space-between;align-items:center}
+
+  /* Footer */
+  .footer{color:#8fa1c7; padding:26px 0 38px}
+  .footer a{color:#c9d6ff}
 </style>
 
-<!-- PDF (client-side) -->
+<!-- PDF libs -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
-<!-- ===== Header ===== -->
-<header class="top">
-  <div class="topbar">
-    <button class="btn btn-ghost" onclick="go('home')" style="background:transparent;border-color:rgba(255,255,255,.12);color:#fff">
-      <span class="brand"><span class="brand-dot"></span><h1>Puls | Credit Report</h1></span>
+<!-- Header -->
+<header class="header">
+  <div class="container header__inner">
+    <button class="btn btn-quiet" onclick="go('home')" style="display:flex;align-items:center;gap:12px">
+      <span class="brand-dot"></span>
+      <span class="brand-title">Puls | Credit Report</span>
     </button>
     <nav>
       <a href="#/how" id="nav-how">How it works</a>
@@ -107,74 +133,71 @@
   </div>
 </header>
 
-<!-- ===== Main ===== -->
-<main class="wrap">
+<!-- Main -->
+<main>
 
-  <!-- HOME -->
-  <section id="view-home" class="hero">
-    <div class="card soft">
-      <h2 class="h2">Instant, investor-friendly credit report for your business</h2>
-      <p class="muted">Enter a few numbers — get a clear score, narrative summary, pillar breakdown, and concrete actions. All locally in your browser.</p>
-      <div class="row" style="margin-top:10px">
+  <!-- Hero -->
+  <section id="view-home" class="container hero">
+    <div>
+      <h1>Instant, human-friendly credit report for your business</h1>
+      <p>Paste your numbers → get a clear score, narrative summary, pillar breakdown, and concrete next steps. Runs entirely in your browser.</p>
+      <div class="row">
         <button class="btn btn-primary" onclick="go('form')">Start with your numbers</button>
-        <a class="btn btn-ghost" href="#/how">See how it works</a>
+        <a class="btn btn-quiet" href="#/how">See how it works</a>
       </div>
-      <p class="muted" style="margin-top:8px">No signup. Sample data pre-filled.</p>
+      <p class="muted" style="margin-top:12px">No signup. Sample data pre-filled.</p>
     </div>
 
-    <div class="card">
-      <div class="h3">What you’ll get</div>
-      <ul class="muted" style="margin:8px 0 0 18px">
-        <li>0–900 score + grade</li>
-        <li>Liquidity runway & profitability</li>
-        <li>Five-pillar breakdown</li>
-        <li>Risk flags & recommendations</li>
-        <li>Downloadable PDF report</li>
-      </ul>
+    <div class="card card--soft">
+      <div class="row" style="justify-content:space-between;align-items:flex-start">
+        <div>
+          <div class="h3">Credit grade</div>
+          <div class="muted">Strong fundamentals</div>
+        </div>
+        <div class="h3" id="demo-score">782</div>
+      </div>
+      <div class="progress" style="margin-top:10px"><i style="width:78%"></i></div>
+      <div class="grid cols4" style="margin-top:12px">
+        <div class="kpi"><div class="muted">Runway</div><div class="v">6.7 mo</div></div>
+        <div class="kpi"><div class="muted">Margin</div><div class="v">28%</div></div>
+        <div class="kpi"><div class="muted">Payment issues</div><div class="v">0 / 12m</div></div>
+        <div class="kpi"><div class="muted">Utilization</div><div class="v">22%</div></div>
+      </div>
     </div>
   </section>
 
-  <!-- FORM -->
-  <section id="view-form" class="hidden">
-    <div class="row" style="justify-content:space-between;margin-bottom:8px">
-      <h2 class="h2" style="margin:0">Start with your numbers</h2>
-      <button class="btn btn-link" onclick="go('how')">How scoring works →</button>
+  <!-- Form -->
+  <section id="view-form" class="container section hidden">
+    <div class="row" style="justify-content:space-between;margin-bottom:6px">
+      <div class="h2" style="margin:0">Start with your numbers</div>
+      <button class="btn btn-ghost" onclick="go('how')">How scoring works →</button>
     </div>
 
     <div class="grid cols2">
       <div class="card">
-        <label>Company name</label><input id="f-companyName" type="text" placeholder="Acme GmbH"/>
+        <label>Company name</label><input id="f-companyName" type="text" placeholder="Acme GmbH">
         <label>Legal form</label>
         <select id="f-legalForm"><option>UG</option><option>GmbH</option><option>Einzelunternehmen</option><option>GbR</option></select>
-        <label>Founded (months ago)</label><input id="f-foundedMonthsAgo" type="number"/>
+        <label>Founded (months ago)</label><input id="f-foundedMonthsAgo" type="number">
 
         <div class="grid cols2">
-          <div>
-            <label>Monthly revenue (€)</label><input id="f-monthlyRevenue" type="number"/>
-          </div><div>
-            <label>Monthly expenses (€)</label><input id="f-monthlyExpenses" type="number"/>
-          </div>
+          <div><label>Monthly revenue (€)</label><input id="f-monthlyRevenue" type="number"></div>
+          <div><label>Monthly expenses (€)</label><input id="f-monthlyExpenses" type="number"></div>
         </div>
 
-        <label>Average bank balance (€)</label><input id="f-avgBankBalance" type="number"/>
+        <label>Average bank balance (€)</label><input id="f-avgBankBalance" type="number">
 
         <div class="grid cols2">
-          <div>
-            <label>Missed payments (last 12m)</label><input id="f-missedPaymentsLast12M" type="number"/>
-          </div><div>
-            <label>Credit utilization (%)</label><input id="f-creditUtilizationPct" type="number"/>
-          </div>
+          <div><label>Missed payments (12m)</label><input id="f-missedPaymentsLast12M" type="number"></div>
+          <div><label>Credit utilization (%)</label><input id="f-creditUtilizationPct" type="number"></div>
         </div>
 
         <div class="grid cols2">
-          <div>
-            <label>Active loans (count)</label><input id="f-activeLoans" type="number"/>
-          </div><div>
-            <label>Industry</label><input id="f-industry" type="text"/>
-          </div>
+          <div><label>Active loans</label><input id="f-activeLoans" type="number"></div>
+          <div><label>Industry</label><input id="f-industry" type="text"></div>
         </div>
 
-        <div class="row" style="margin-top:12px">
+        <div class="row" style="margin-top:14px">
           <button class="btn btn-primary" onclick="go('report')">Generate report</button>
           <button class="btn btn-ghost" onclick="loadExample()">Load example</button>
         </div>
@@ -183,52 +206,44 @@
 
       <div class="card">
         <div class="h3">Live preview</div>
-        <div class="grid cols2" style="margin-top:8px">
+        <div class="grid cols2" style="margin-top:10px">
           <div class="kpi"><div class="muted">Score</div><div class="v" id="prev-score">—</div></div>
-          <div class="kpi"><div class="muted">Grade</div><div class="v"><span id="prev-grade">—</span></div></div>
+          <div class="kpi"><div class="muted">Grade</div><div class="v" id="prev-grade">—</div></div>
           <div class="kpi"><div class="muted">Runway</div><div class="v" id="prev-runway">—</div></div>
           <div class="kpi"><div class="muted">Margin</div><div class="v" id="prev-margin">—</div></div>
         </div>
-        <div style="margin-top:10px">
-          <div class="muted">Risk bar</div>
-          <div class="bar"><i id="prev-bar" style="width:0%"></i></div>
+        <div style="margin-top:12px">
+          <div class="muted">Strength bar</div>
+          <div class="progress"><i id="prev-bar" style="width:0%"></i></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- REPORT -->
-  <section id="view-report" class="hidden">
+  <!-- Report -->
+  <section id="view-report" class="container section hidden">
     <div class="row" style="justify-content:space-between">
       <button class="btn btn-ghost" onclick="go('form')">← Edit data</button>
       <button class="btn btn-ghost" id="btn-download-pdf">Download PDF</button>
     </div>
 
-    <!-- Printable area -->
-    <div id="report-area" class="grid" style="margin-top:14px; gap:14px">
-      <!-- Summary -->
-      <div class="card soft">
+    <div id="report-area" class="grid" style="margin-top:16px">
+      <!-- Narrative Summary -->
+      <div class="card card--soft">
         <div class="row" style="justify-content:space-between;align-items:flex-start">
           <div>
-            <div class="h3" style="margin-bottom:4px">Credit Report Summary</div>
+            <div class="h2" style="margin-bottom:6px">Credit Report — Summary</div>
             <div class="muted" id="r-intro">—</div>
           </div>
-          <div class="row">
-            <span class="badge badge-A" id="r-badge">GRADE</span>
-          </div>
+          <span class="badge badge-A" id="r-badge">GRADE</span>
         </div>
-
-        <div class="grid cols4" style="margin-top:12px">
+        <div class="grid cols4" style="margin-top:14px">
           <div class="kpi"><div class="muted">Score (0–900)</div><div class="v" id="r-score">—</div></div>
           <div class="kpi"><div class="muted">Runway</div><div class="v" id="r-runway">—</div></div>
           <div class="kpi"><div class="muted">Profit margin</div><div class="v" id="r-margin">—</div></div>
           <div class="kpi"><div class="muted">Utilization</div><div class="v" id="r-util">—</div></div>
         </div>
-
-        <div style="margin-top:10px">
-          <div class="bar"><i id="r-bar" style="width:0%"></i></div>
-          <div class="muted" style="margin-top:6px">Left = higher risk · Right = stronger profile</div>
-        </div>
+        <div style="margin-top:12px"><div class="progress"><i id="r-bar" style="width:0%"></i></div></div>
       </div>
 
       <!-- Pillars -->
@@ -240,7 +255,7 @@
         </table>
       </div>
 
-      <!-- Financial Snapshot -->
+      <!-- Snapshot -->
       <div class="card">
         <div class="h3">Financial snapshot</div>
         <table class="tbl" style="margin-top:8px">
@@ -253,24 +268,22 @@
       <div class="grid cols2">
         <div class="card">
           <div class="h3">Risk flags</div>
-          <ul id="r-risks" class="muted" style="margin-top:6px; padding-left:18px"></ul>
+          <ul id="r-risks" class="muted" style="margin:8px 0 0 18px"></ul>
         </div>
         <div class="card">
           <div class="h3">Recommendations</div>
-          <ul id="r-tips" style="margin-top:6px; padding-left:18px"></ul>
+          <ul id="r-tips" style="margin:8px 0 0 18px"></ul>
         </div>
       </div>
 
       <!-- Methodology -->
       <div class="card">
         <div class="h3">Methodology & assumptions</div>
-        <ul class="muted" style="margin-top:6px; padding-left:18px">
-          <li>Composite score from 0 to 900 across five pillars: liquidity, profitability, payment history, leverage, and company age.</li>
-          <li>Inputs are self-reported; all calculations run locally in your browser.</li>
+        <ul class="muted" style="margin:8px 0 0 18px">
+          <li>Composite score (0–900) across liquidity, profitability, payment history, leverage, company age.</li>
           <li>Runway = average bank balance ÷ monthly burn (capped at 24 months if profitable).</li>
-          <li>Profit margin = (revenue − expenses) ÷ revenue.</li>
-          <li>Credit utilization lower is better; missed payments penalize payment history.</li>
-          <li>This is a demo and not financial advice. For banking-grade scoring, connect live data in Puls.</li>
+          <li>Profit margin = (revenue − expenses) ÷ revenue. Lower utilization and clean payment history improve score.</li>
+          <li>This is a demo, not financial advice. Banking-grade scoring is available in Puls with connected data.</li>
         </ul>
       </div>
 
@@ -279,7 +292,7 @@
         <div class="row" style="justify-content:space-between">
           <div>
             <div class="muted">Prepared for</div>
-            <div id="r-company" style="font-weight:800;font-size:18px">—</div>
+            <div id="r-company" style="font-weight:800; font-size:20px">—</div>
           </div>
           <div class="muted">Generated on <span id="r-date">—</span></div>
         </div>
@@ -289,37 +302,35 @@
     <div class="card muted">Client-side demo. Data stays in your browser.</div>
   </section>
 
-  <!-- STATIC PAGES -->
-  <section id="view-how" class="hidden">
+  <!-- Info pages -->
+  <section id="view-how" class="container section hidden">
     <div class="card">
-      <h2 class="h2">How it works</h2>
+      <div class="h2">How it works</div>
       <ol class="muted" style="padding-left:18px">
         <li><b>Provide inputs.</b> Revenue, expenses, bank balance, company age, missed payments, utilization.</li>
         <li><b>Local scoring.</b> Transparent, rules-based model in your browser (no server calls).</li>
-        <li><b>Composite score.</b> 0–900 across liquidity, profitability, payment history, leverage, age.</li>
-        <li><b>Readable report.</b> Narrative summary, pillars, risk flags, actions.</li>
+        <li><b>Composite score.</b> 0–900 across five pillars.</li>
+        <li><b>Readable report.</b> Narrative summary, pillars, flags, actions.</li>
         <li><b>Integrate later.</b> In Puls, connect bank feeds and export/share.</li>
       </ol>
-      <div class="row" style="margin-top:10px"><button class="btn btn-primary" onclick="go('form')">Start with your numbers</button></div>
     </div>
   </section>
 
-  <section id="view-data" class="hidden">
+  <section id="view-data" class="container section hidden">
     <div class="card">
-      <h2 class="h2">Data used</h2>
+      <div class="h2">Data used</div>
       <ul class="muted" style="padding-left:18px">
         <li><b>Financials:</b> Monthly revenue, Monthly expenses, Average bank balance</li>
         <li><b>Credit profile:</b> Missed payments (12m), Credit utilization (%), Active loans (count)</li>
         <li><b>Context:</b> Legal form, Industry, Company age (months)</li>
         <li><b>Derived:</b> Profit margin, Cash runway, Composite score & grade</li>
       </ul>
-      <p class="muted" style="margin-top:8px">In this prototype, all data stays in your browser.</p>
     </div>
   </section>
 
-  <section id="view-security" class="hidden">
+  <section id="view-security" class="container section hidden">
     <div class="card">
-      <h2 class="h2">Security</h2>
+      <div class="h2">Security</div>
       <ul class="muted" style="padding-left:18px">
         <li><b>Local-only demo:</b> All calculations client-side; no data transmitted.</li>
         <li><b>Future:</b> TLS in transit, AES-256 at rest, role-based access.</li>
@@ -329,9 +340,9 @@
     </div>
   </section>
 
-  <section id="view-imprint" class="hidden">
+  <section id="view-imprint" class="container section hidden">
     <div class="card">
-      <h2 class="h2">Imprint</h2>
+      <div class="h2">Imprint</div>
       <p><b>Puls GmbH</b><br/>Sample Street 12, 10115 Berlin, Germany</p>
       <p>Managing Director: D. Danilevich</p>
       <p>Contact: hello@puls.example</p>
@@ -340,9 +351,9 @@
     </div>
   </section>
 
-  <section id="view-privacy" class="hidden">
+  <section id="view-privacy" class="container section hidden">
     <div class="card">
-      <h2 class="h2">Privacy Policy</h2>
+      <div class="h2">Privacy Policy</div>
       <p><b>Scope.</b> This prototype does not send any personal data to a server. All calculations occur locally.</p>
       <p><b>Data you enter.</b> Used solely to render your report. Reload clears your data.</p>
       <p><b>Cookies & tracking.</b> No analytics or third-party trackers in this demo.</p>
@@ -351,7 +362,8 @@
     </div>
   </section>
 
-  <footer class="site">
+  <!-- Footer -->
+  <footer class="container footer">
     <div>© <span id="y"></span> Puls. Demo only.</div>
     <div class="row">
       <a href="#/imprint">Imprint</a>
@@ -360,206 +372,159 @@
   </footer>
 </main>
 
-<!-- ===== Logic (vanilla JS) ===== -->
+<!-- Logic -->
 <script>
-  // ---------- State ----------
-  const state = {
-    companyName:"", legalForm:"UG", foundedMonthsAgo:18,
+  /* ---------- State ---------- */
+  const S = {
+    companyName:"", legalForm:"GmbH", foundedMonthsAgo:18,
     monthlyRevenue:25000, monthlyExpenses:18000, avgBankBalance:12000,
-    missedPaymentsLast12M:0, creditUtilizationPct:22, activeLoans:0,
-    industry:"Services"
+    missedPaymentsLast12M:0, creditUtilizationPct:22, activeLoans:0, industry:"Services"
   };
 
-  // ---------- Helpers ----------
-  const scale=(v,min,max)=>(v-min)/(max-min);
+  /* ---------- Scoring ---------- */
+  const scale=(v,a,b)=>(v-a)/(b-a);
   const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
-  function computeRunway(d){ const burn=Math.max(0,d.monthlyExpenses-d.monthlyRevenue); return burn<=0?24:d.avgBankBalance/burn; }
-  function computeMargin(d){ return d.monthlyRevenue<=0?0:Math.max(0,(d.monthlyRevenue-d.monthlyExpenses)/d.monthlyRevenue); }
-  function computeScore(d){
-    const runway=computeRunway(d), margin=computeMargin(d);
-    const liquidity=clamp(scale(runway,0,12)*100,0,100);
-    const profitability=clamp(margin*100,0,100);
+  const runway = (d)=>{const burn=Math.max(0,d.monthlyExpenses-d.monthlyRevenue); return burn<=0?24:d.avgBankBalance/burn;}
+  const margin = (d)=> d.monthlyRevenue<=0 ? 0 : Math.max(0,(d.monthlyRevenue-d.monthlyExpenses)/d.monthlyRevenue);
+  function score(d){
+    const rw=runway(d), m=margin(d);
+    const liquidity=clamp(scale(rw,0,12)*100,0,100);
+    const profitability=clamp(m*100,0,100);
     const paymentHistory=clamp(100-d.missedPaymentsLast12M*25,0,100);
     const leverage=clamp(100-d.creditUtilizationPct,0,100);
     const age=clamp(scale(d.foundedMonthsAgo,0,36)*100,0,100);
-    const total0to100 = liquidity*.28 + profitability*.27 + paymentHistory*.23 + leverage*.12 + age*.10;
-    return { total: Math.round(total0to100*9), liquidity, profitability, paymentHistory, leverage, age };
+    const total0to100=liquidity*.28+profitability*.27+paymentHistory*.23+leverage*.12+age*.10;
+    return { total:Math.round(total0to100*9), liquidity, profitability, paymentHistory, leverage, age };
   }
-  function gradeFromScore(t){ if(t>=800)return"A+"; if(t>=740)return"A"; if(t>=680)return"B+"; if(t>=620)return"B"; if(t>=560)return"C+"; if(t>=500)return"C"; return"D"; }
-  function gradeLabel(g){ return ({'A+':'excellent','A':'very good','B+':'good','B':'fair','C+':'watchlist','C':'weak'})[g] || 'high risk'; }
-
-  function getRecommendations(d){
-    const tips=[]; const m=computeMargin(d), r=computeRunway(d);
-    if(m<0.15) tips.push("Improve gross margin to 20%+ (pricing and cost control).");
-    if(r<3) tips.push("Boost liquidity: target 3–6 months runway (increase balance or trim burn).");
-    if(d.missedPaymentsLast12M>0) tips.push("Avoid missed payments for 12 months to unlock a higher grade.");
-    if(d.creditUtilizationPct>40) tips.push("Lower credit utilization below 30% to reduce risk profile.");
-    if(d.activeLoans>2) tips.push("Consider consolidating loans to simplify obligations.");
-    if(!tips.length) tips.push("Stay the course: healthy margins and low utilization.");
-    return tips;
+  function gradeFrom(t){ if(t>=800)return"A+"; if(t>=740)return"A"; if(t>=680)return"B+"; if(t>=620)return"B"; if(t>=560)return"C+"; if(t>=500)return"C"; return"D"; }
+  const gradeLabel=(g)=>({"A+":"excellent","A":"very good","B+":"good","B":"fair","C+":"watchlist","C":"weak"}[g]||"high risk");
+  function risks(d){
+    const list=[], m=margin(d), r=runway(d);
+    if(m<0.05) list.push("Very thin margin (<5%).");
+    if(r<2) list.push("Runway under 2 months.");
+    if(d.missedPaymentsLast12M>=2) list.push("Multiple missed payments in last 12 months.");
+    if(d.creditUtilizationPct>=70) list.push("High credit utilization (≥70%).");
+    if(d.foundedMonthsAgo<6) list.push("Young company (<6 months).");
+    if(!list.length) list.push("No critical risk flags detected in self-reported data.");
+    return list;
   }
-
-  function getRiskFlags(d){
-    const flags=[];
-    const m=computeMargin(d), r=computeRunway(d);
-    if(m<0.05) flags.push("Very thin margin (<5%).");
-    if(r<2) flags.push("Runway under 2 months.");
-    if(d.missedPaymentsLast12M>=2) flags.push("Multiple missed payments last 12 months.");
-    if(d.creditUtilizationPct>=70) flags.push("High credit utilization (≥70%).");
-    if(d.foundedMonthsAgo<6) flags.push("Young company (<6 months).");
-    if(!flags.length) flags.push("No critical risk flags detected in self-reported data.");
-    return flags;
+  function tips(d){
+    const out=[], m=margin(d), r=runway(d);
+    if(m<0.15) out.push("Improve gross margin to 20%+ (pricing and cost control).");
+    if(r<3) out.push("Boost liquidity: target 3–6 months runway.");
+    if(d.missedPaymentsLast12M>0) out.push("Avoid missed payments for 12 months.");
+    if(d.creditUtilizationPct>40) out.push("Lower credit utilization below 30%.");
+    if(d.activeLoans>2) out.push("Consider consolidating loans.");
+    if(!out.length) out.push("Stay the course: healthy margins and low utilization.");
+    return out;
   }
 
-  // ---------- DOM utils ----------
-  const $ = (id)=>document.getElementById(id);
-  const set=(id, val)=>{ const el=$(id); if(el) el.textContent = val; };
+  /* ---------- DOM helpers ---------- */
+  const $ = id => document.getElementById(id);
+  const set = (id, val) => { const e=$(id); if(e) e.textContent = val; };
 
-  // ---------- Form binding ----------
+  /* ---------- Form bind ---------- */
   function bindForm(){
     [
-      ['f-companyName','companyName',v=>v],
-      ['f-legalForm','legalForm',v=>v],
-      ['f-foundedMonthsAgo','foundedMonthsAgo',v=>Number(v||0)],
-      ['f-monthlyRevenue','monthlyRevenue',v=>Number(v||0)],
-      ['f-monthlyExpenses','monthlyExpenses',v=>Number(v||0)],
-      ['f-avgBankBalance','avgBankBalance',v=>Number(v||0)],
-      ['f-missedPaymentsLast12M','missedPaymentsLast12M',v=>Number(v||0)],
-      ['f-creditUtilizationPct','creditUtilizationPct',v=>Number(v||0)],
-      ['f-activeLoans','activeLoans',v=>Number(v||0)],
+      ['f-companyName','companyName',v=>v],['f-legalForm','legalForm',v=>v],['f-foundedMonthsAgo','foundedMonthsAgo',n=>Number(n||0)],
+      ['f-monthlyRevenue','monthlyRevenue',n=>Number(n||0)],['f-monthlyExpenses','monthlyExpenses',n=>Number(n||0)],
+      ['f-avgBankBalance','avgBankBalance',n=>Number(n||0)],['f-missedPaymentsLast12M','missedPaymentsLast12M',n=>Number(n||0)],
+      ['f-creditUtilizationPct','creditUtilizationPct',n=>Number(n||0)],['f-activeLoans','activeLoans',n=>Number(n||0)],
       ['f-industry','industry',v=>v],
     ].forEach(([id,key,cast])=>{
-      $(id).addEventListener('input',e=>{ state[key]=cast(e.target.value); updatePreview(); });
+      $(id).addEventListener('input',e=>{ S[key]=cast(e.target.value); updatePreview(); });
     });
   }
   function syncInputs(){
-    $('f-companyName').value=state.companyName;
-    $('f-legalForm').value=state.legalForm;
-    $('f-foundedMonthsAgo').value=state.foundedMonthsAgo;
-    $('f-monthlyRevenue').value=state.monthlyRevenue;
-    $('f-monthlyExpenses').value=state.monthlyExpenses;
-    $('f-avgBankBalance').value=state.avgBankBalance;
-    $('f-missedPaymentsLast12M').value=state.missedPaymentsLast12M;
-    $('f-creditUtilizationPct').value=state.creditUtilizationPct;
-    $('f-activeLoans').value=state.activeLoans;
-    $('f-industry').value=state.industry;
+    $('f-companyName').value=S.companyName; $('f-legalForm').value=S.legalForm; $('f-foundedMonthsAgo').value=S.foundedMonthsAgo;
+    $('f-monthlyRevenue').value=S.monthlyRevenue; $('f-monthlyExpenses').value=S.monthlyExpenses;
+    $('f-avgBankBalance').value=S.avgBankBalance; $('f-missedPaymentsLast12M').value=S.missedPaymentsLast12M;
+    $('f-creditUtilizationPct').value=S.creditUtilizationPct; $('f-activeLoans').value=S.activeLoans; $('f-industry').value=S.industry;
   }
-
   function loadExample(){
-    Object.assign(state,{
-      companyName:"Demo GmbH", legalForm:"GmbH", foundedMonthsAgo:18,
-      monthlyRevenue:25000, monthlyExpenses:18000, avgBankBalance:12000,
-      missedPaymentsLast12M:0, creditUtilizationPct:22, activeLoans:0, industry:"Services"
-    });
+    Object.assign(S,{companyName:"Demo GmbH",legalForm:"GmbH",foundedMonthsAgo:18,monthlyRevenue:25000,monthlyExpenses:18000,avgBankBalance:12000,missedPaymentsLast12M:0,creditUtilizationPct:22,activeLoans:0,industry:"Services"});
     syncInputs(); updatePreview();
   }
 
-  // ---------- Preview & Report ----------
+  /* ---------- Preview & Report ---------- */
   function updatePreview(){
-    const s=computeScore(state), g=gradeFromScore(s.total);
-    set('prev-score', s.total);
-    set('prev-grade', g);
-    set('prev-runway', computeRunway(state).toFixed(1)+' mo');
-    set('prev-margin', Math.round(computeMargin(state)*100)+'%');
-    $('prev-bar').style.width = Math.min(100, s.total/9)+'%';
+    const sc=score(S), g=gradeFrom(sc.total);
+    set('prev-score', sc.total); set('prev-grade', g);
+    set('prev-runway', runway(S).toFixed(1)+' mo');
+    set('prev-margin', Math.round(margin(S)*100)+'%');
+    $('prev-bar').style.width = Math.min(100, sc.total/9)+'%';
   }
 
   function renderReport(){
-    const s=computeScore(state), g=gradeFromScore(s.total);
-    const runway=computeRunway(state), margin=computeMargin(state);
-    // Summary
-    set('r-score', s.total);
-    set('r-runway', runway.toFixed(1)+' mo');
-    set('r-margin', Math.round(margin*100)+'%');
-    set('r-util', state.creditUtilizationPct+'%');
-    set('r-company', state.companyName||'—');
-    set('r-date', new Date().toLocaleString());
-    $('r-bar').style.width = Math.min(100, s.total/9)+'%';
-    // Grade badge
+    const sc=score(S), g=gradeFrom(sc.total);
+    const rw=runway(S), m=margin(S);
+    // top
+    set('r-score', sc.total); set('r-runway', rw.toFixed(1)+' mo');
+    set('r-margin', Math.round(m*100)+'%'); set('r-util', S.creditUtilizationPct+'%');
+    $('r-bar').style.width = Math.min(100, sc.total/9)+'%';
     const badge=$('r-badge');
-    badge.textContent=g;
-    badge.className='badge ' + (g.startsWith('A')?'badge-A':g.startsWith('B')?'badge-B':g.startsWith('C')?'badge-C':'badge-D');
-    // Intro text
-    const label = ({'A+':'excellent','A':'very good','B+':'good','B':'fair','C+':'watchlist','C':'weak'})[g] || 'high risk';
-    $('r-intro').textContent =
-      `${state.companyName || 'The company'} shows ${label} creditworthiness with a score of ${s.total} (${g}). ` +
-      `Liquidity runway of ${runway.toFixed(1)} months and a profit margin of ${Math.round(margin*100)}% ` +
-      `suggest ${margin>=0.15?'healthy operations.':'room for operational improvement.'}`;
+    badge.textContent=g; badge.className='badge '+(g.startsWith('A')?'badge-A':g.startsWith('B')?'badge-B':g.startsWith('C')?'badge-C':'badge-D');
+    const label=gradeLabel(g);
+    $('r-intro').textContent = `${S.companyName||'The company'} shows ${label} creditworthiness with a score of ${sc.total} (${g}). `
+      + `Liquidity runway of ${rw.toFixed(1)} months and a profit margin of ${Math.round(m*100)}% `
+      + `${m>=0.15?'indicate healthy operations.':'suggest room for improvement on efficiency.'}`;
+    set('r-company', S.companyName||'—'); set('r-date', new Date().toLocaleString());
 
-    // Pillars
-    const tbody=$('r-pillars'); tbody.innerHTML='';
+    // pillars
+    const tb=$('r-pillars'); tb.innerHTML='';
     const rows=[
-      ['Liquidity','28%',s.liquidity, runway>=6?'Comfortable cash runway.':'Tight runway; consider increasing balance or reducing burn.'],
-      ['Profitability','27%',s.profitability, margin>=0.15?'Solid margin.':'Sub-15% margin; review pricing/costs.'],
-      ['Payment history','23%',s.paymentHistory, state.missedPaymentsLast12M===0?'No missed payments reported.':'Missed payments impact score.'],
-      ['Leverage','12%',s.leverage, state.creditUtilizationPct<=30?'Low utilization.':'High utilization elevates risk.'],
-      ['Company age','10%',s.age, state.foundedMonthsAgo>=18?'Established track record.':'Young company, thin history.']
+      ['Liquidity','28%',sc.liquidity, rw>=6?'Comfortable runway.':'Tight runway — raise balance or reduce burn.'],
+      ['Profitability','27%',sc.profitability, m>=0.15?'Solid margin.':'Sub-15% margin — review pricing/costs.'],
+      ['Payment history','23%',sc.paymentHistory, S.missedPaymentsLast12M===0?'No missed payments.':'Missed payments impact score.'],
+      ['Leverage','12%',sc.leverage, S.creditUtilizationPct<=30?'Low utilization.':'High utilization raises risk.'],
+      ['Company age','10%',sc.age, S.foundedMonthsAgo>=18?'Established history.':'Young company — limited track record.'],
     ];
-    rows.forEach(([pillar,w,sub,comment])=>{
-      const tr=document.createElement('tr');
-      tr.innerHTML = `<td>${pillar}</td><td>${w}</td><td>${Math.round(sub)}</td><td class="muted">${comment}</td>`;
-      tbody.appendChild(tr);
-    });
+    rows.forEach(([p,w,s,c])=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${p}</td><td>${w}</td><td>${Math.round(s)}</td><td class="muted">${c}</td>`; tb.appendChild(tr); });
 
-    // Snapshot
+    // snapshot
     const snap=$('r-snapshot'); snap.innerHTML='';
     const lines=[
-      ['Company',''+(state.companyName||'—')],
-      ['Legal form', state.legalForm],
-      ['Industry', state.industry||'—'],
-      ['Monthly revenue','€ '+formatNum(state.monthlyRevenue)],
-      ['Monthly expenses','€ '+formatNum(state.monthlyExpenses)],
-      ['Average bank balance','€ '+formatNum(state.avgBankBalance)],
-      ['Missed payments (12m)', state.missedPaymentsLast12M],
-      ['Credit utilization', state.creditUtilizationPct+'%'],
-      ['Active loans', state.activeLoans]
+      ['Company',S.companyName||'—'],['Legal form',S.legalForm],['Industry',S.industry||'—'],
+      ['Monthly revenue','€ '+num(S.monthlyRevenue)],['Monthly expenses','€ '+num(S.monthlyExpenses)],
+      ['Average bank balance','€ '+num(S.avgBankBalance)],['Missed payments (12m)',S.missedPaymentsLast12M],
+      ['Credit utilization',S.creditUtilizationPct+'%'],['Active loans',S.activeLoans]
     ];
-    lines.forEach(([k,v])=>{
-      const tr=document.createElement('tr'); tr.innerHTML=`<td>${k}</td><td><b>${v}</b></td>`; snap.appendChild(tr);
-    });
+    lines.forEach(([k,v])=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${k}</td><td><b>${v}</b></td>`; snap.appendChild(tr); });
 
-    // Risks & Tips
-    const risks=$('r-risks'); risks.innerHTML='';
-    getRiskFlags(state).forEach(t=>{ const li=document.createElement('li'); li.textContent=t; risks.appendChild(li); });
-    const tips=$('r-tips'); tips.innerHTML='';
-    getRecommendations(state).forEach(t=>{ const li=document.createElement('li'); li.textContent=t; tips.appendChild(li); });
+    // risks & tips
+    const R=$('r-risks'); R.innerHTML=''; risks(S).forEach(t=>{ const li=document.createElement('li'); li.textContent=t; R.appendChild(li); });
+    const T=$('r-tips'); T.innerHTML=''; tips(S).forEach(t=>{ const li=document.createElement('li'); li.textContent=t; T.appendChild(li); });
   }
+  const num = n => (Number(n)||0).toLocaleString('de-DE');
 
-  function formatNum(n){ return (Number(n)||0).toLocaleString('de-DE'); }
-
-  // ---------- Router ----------
+  /* ---------- Router ---------- */
   function go(v){ location.hash = '#/'+v; }
-  function currentView(){
-    const h=(location.hash||'').replace(/^#\/?/,''); const view=h.split('/')[0];
-    return ['home','form','report','how','data','security','imprint','privacy'].includes(view)?view:'home';
-  }
-  function show(view){
-    ['how','data','security'].forEach(id=>{ const a=$('nav-'+id); if(a) a.classList.toggle('active', view===id); });
-    ['home','form','report','how','data','security','imprint','privacy'].forEach(v=>{
-      const sec=$('view-'+v); if(sec) sec.classList.toggle('hidden', v!==view);
+  function curView(){ const v=(location.hash||'').replace(/^#\/?/,'').split('/')[0]; return ['home','form','report','how','data','security','imprint','privacy'].includes(v)?v:'home'; }
+  function show(v){
+    ['how','data','security'].forEach(id=>{ const a=document.getElementById('nav-'+id); if(a) a.classList.toggle('active', v===id); });
+    ['home','form','report','how','data','security','imprint','privacy'].forEach(x=>{
+      const sec=document.getElementById('view-'+x); if(sec) sec.classList.toggle('hidden', x!==v);
     });
-    if(view==='form'){ syncInputs(); updatePreview(); }
-    if(view==='report'){ renderReport(); attachPdf(); }
+    if(v==='form'){ syncInputs(); updatePreview(); }
+    if(v==='report'){ renderReport(); attachPDF(); }
   }
-  window.addEventListener('hashchange', ()=>show(currentView()));
+  window.addEventListener('hashchange', ()=>show(curView()));
 
-  // ---------- PDF ----------
-  function attachPdf(){
-    const btn=$('btn-download-pdf'); if(!btn) return;
-    btn.onclick=()=>{
-      const el=$('report-area'); if(!el) return;
+  /* ---------- PDF ---------- */
+  function attachPDF(){
+    const b=document.getElementById('btn-download-pdf'); if(!b) return;
+    b.onclick=()=>{
+      const area=document.getElementById('report-area'); if(!area) return;
       const now=new Date(), pad=n=>String(n).padStart(2,'0');
-      const fname=`Puls_Credit_Report_${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}.pdf`;
-      const opt={ margin:[10,10,10,10], filename:fname,
-        image:{type:'jpeg',quality:0.98}, html2canvas:{scale:2,useCORS:true},
-        jsPDF:{unit:'mm',format:'a4',orientation:'portrait'} };
-      html2pdf().set(opt).from(el).save();
+      const filename=`Puls_Credit_Report_${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}.pdf`;
+      const opts={margin:[10,10,10,10], filename, image:{type:'jpeg',quality:.98}, html2canvas:{scale:2,useCORS:true}, jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}};
+      html2pdf().set(opts).from(area).save();
     };
   }
 
-  // ---------- Init ----------
-  $('y').textContent=new Date().getFullYear();
-  bindForm(); loadExample(); show(currentView());
+  /* ---------- Init ---------- */
+  document.getElementById('y').textContent = new Date().getFullYear();
+  bindForm(); loadExample(); show(curView());
 </script>
 </body>
 </html>
