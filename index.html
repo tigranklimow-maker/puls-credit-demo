@@ -5,29 +5,31 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Puls — Credit Report (Demo)</title>
 
-<!-- Fonts -->
+<!-- Inter -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<!-- Styles -->
 <style>
   :root{
-    /* Puls blue theme */
-    --blue-1:#1e40ff;           /* main blue */
-    --blue-2:#6a5cff;           /* violet tint for gradient */
-    --blue-3:#0f1ad4;           /* deep */
-    --bg:#f6f7fb;               /* page bg */
+    /* New calm gradient palette */
+    --indigo:#4f46e5;
+    --violet:#7c3aed;
+    --teal:#10b981;
+
+    --bg:#f6f7fb;
     --paper:#ffffff;
     --text:#0b1220;
-    --muted:#64748b;
+    --muted:#6b7280;
     --line:#e9edf5;
-    --brand:#5b54ff;            /* button gradient start */
-    --brand2:#8d66ff;           /* button gradient end */
-    --ok:#16a34a; --warn:#f59e0b; --bad:#ef4444;
+
+    --brand:#635bff;   /* button grad start */
+    --brand2:#8b5cf6;  /* button grad end */
+
     --shadow-lg:0 22px 60px rgba(11,18,32,.12);
     --shadow:0 12px 28px rgba(11,18,32,.08);
     --r-xl:24px; --r-lg:18px; --r:14px; --r-sm:10px;
   }
+
   *{box-sizing:border-box}
   html,body{height:100%}
   body{
@@ -36,18 +38,19 @@
   }
   a{color:inherit;text-decoration:none}
   .container{max-width:1240px;margin:0 auto;padding:0 40px}
-  .section{padding:40px 0}
+  .section{padding:48px 0}
   .grid{display:grid;gap:18px}
-  .cols2{grid-template-columns:minmax(0,1fr) minmax(320px,380px);align-items:start}
+  .cols2{grid-template-columns:minmax(0,1fr) minmax(340px,400px);align-items:start}
   .cols4{grid-template-columns:repeat(4,1fr)}
   @media (max-width:1100px){ .cols2{grid-template-columns:1fr} .cols4{grid-template-columns:1fr} }
 
-  /* Header over blue band */
+  /* Header */
   .header{
     position:sticky; top:0; z-index:50;
     backdrop-filter:saturate(1.1) blur(10px);
-    background:linear-gradient(180deg, rgba(13,23,216,.9), rgba(13,23,216,.6));
-    border-bottom:1px solid rgba(255,255,255,.14); color:#fff;
+    background:rgba(20,25,60,.6);
+    border-bottom:1px solid rgba(255,255,255,.15);
+    color:#fff;
   }
   .header__inner{height:70px;display:flex;align-items:center;justify-content:space-between}
   .brand{display:flex;align-items:center;gap:10px}
@@ -57,40 +60,53 @@
   nav a{color:#e4e8ff;margin-left:18px;font-weight:600}
   nav a.active,nav a:hover{color:#fff;text-decoration:underline}
 
-  /* Blue hero band */
+  /* HERO band — animated gradient */
   .band{
+    position:relative;
+    overflow:hidden;
     background:
       radial-gradient(1200px 500px at 85% -40%, rgba(255,255,255,.18) 0%, rgba(255,255,255,0) 60%),
-      linear-gradient(180deg, var(--blue-1) 0%, var(--blue-2) 100%);
+      linear-gradient(120deg, var(--indigo), var(--violet), var(--teal));
+    background-size: 140% 140%;
+    animation: bandShift 18s ease-in-out infinite;
     color:#fff;
     border-bottom:1px solid rgba(255,255,255,.16);
   }
-  .hero{
-    min-height:72vh; display:grid; grid-template-columns:1.05fr .95fr;
-    gap:28px; align-items:center; padding:56px 0 68px;
+  @keyframes bandShift{
+    0%{background-position: 0% 50%}
+    50%{background-position: 100% 50%}
+    100%{background-position: 0% 50%}
   }
-  .hero h1{
-    /* smaller than before */
-    font-weight:800; font-size: clamp(32px, 4.2vw, 44px); line-height:1.07; margin:0 0 12px;
-    letter-spacing:-.01em; color:#fff;
-  }
-  .hero p{color:#e8ecff; font-size:16px; margin:0 0 20px}
 
-  /* Cards / KPIs */
+  .hero{
+    min-height:76vh; display:grid; grid-template-columns:1.05fr .95fr;
+    gap:32px; align-items:center; padding:64px 0 72px;
+  }
+  /* Apple-ish heading: big, tight, clean */
+  .hero h1{
+    font-weight:800; font-size: clamp(40px, 6vw, 68px); line-height:1.04; margin:0 0 14px;
+    letter-spacing:-.02em; color:#fff;
+  }
+  .hero p{color:#e9edff; font-size:18px; margin:0 0 22px}
+
+  /* Cards / KPI */
   .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-xl);box-shadow:var(--shadow-lg);padding:22px}
-  .kpi{padding:14px 16px;border:1px solid var(--line);border-radius:18px;background:#fff}
-  .kpi .v{font-size:20px;font-weight:800}
+  .kpi{
+    padding:16px;border:1px solid var(--line);border-radius:18px;background:#fff;
+    color:var(--text); /* black text on white */
+  }
+  .kpi .v{font-size:22px;font-weight:800}
   .progress{height:10px;background:#eef2ff;border-radius:999px;overflow:hidden}
   .progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand2))}
 
   /* Buttons */
-  .btn{padding:13px 18px;border:0;border-radius:14px;font-weight:800;cursor:pointer;letter-spacing:.2px}
-  .btn-primary{color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 12px 26px rgba(91,84,255,.35)}
-  .btn-quiet{background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff}
+  .btn{padding:14px 20px;border:0;border-radius:14px;font-weight:800;cursor:pointer;letter-spacing:.2px}
+  .btn-primary{color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 12px 26px rgba(99,91,255,.35)}
+  .btn-quiet{background:transparent;border:1px solid rgba(255,255,255,.28);color:#fff}
   .btn-ghost{background:#fff;border:1px solid var(--line);color:var(--text)}
 
   /* Typography */
-  .h2{font-weight:800;font-size:26px;margin:0 0 10px}
+  .h2{font-weight:800;font-size:28px;margin:0 0 12px; letter-spacing:-.01em}
   .h3{font-weight:800;font-size:18px;margin:0 0 8px}
   .muted{color:var(--muted);font-size:14px}
 
@@ -114,10 +130,16 @@
   .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
   .hidden{display:none!important}
 
-  /* Full-looking content pages */
-  .page-card{background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:26px}
-  .bullets{padding-left:22px;color:#334155}
-  .bullets li{margin:8px 0}
+  /* Full, blocky content pages */
+  .page{padding:52px 0}
+  .cluster{display:grid;gap:20px;grid-template-columns:repeat(3,1fr)}
+  .block{
+    background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);
+    padding:26px
+  }
+  .block .title{font-weight:800;font-size:22px;margin:0 0 8px}
+  .block .text{font-size:17px;line-height:1.6;color:#334155}
+  @media (max-width: 1000px){ .cluster{grid-template-columns:1fr} }
 
   /* Footer */
   .footer{color:#7b8bb0;padding:28px 0 40px}
@@ -144,7 +166,7 @@
   </div>
 </header>
 
-<!-- Hero band -->
+<!-- HERO -->
 <div class="band">
   <section id="view-home" class="container hero">
     <div>
@@ -155,19 +177,15 @@
         <button class="btn btn-primary" onclick="go('form')">Start with your numbers</button>
         <a class="btn btn-quiet" href="#/how">See how it works</a>
       </div>
-      <p class="muted" style="color:#dfe6ff;margin-top:12px">No signup. Sample data pre-filled.</p>
     </div>
 
-    <div class="card">
+    <div class="card" aria-label="Demo grade card">
       <div class="row" style="justify-content:space-between;align-items:flex-start">
-        <div>
-          <div class="h3">Credit grade</div>
-          <div class="muted">Strong fundamentals</div>
-        </div>
-        <div class="h3" id="demo-score">782</div>
+        <div class="h3" style="color:#6b7aa6;font-weight:700">Strong fundamentals</div>
+        <div class="h3" id="demo-score" style="color:#111827">782</div>
       </div>
-      <div class="progress" style="margin-top:10px"><i style="width:78%"></i></div>
-      <div class="grid cols4" style="margin-top:12px">
+      <div class="progress" style="margin-top:12px"><i style="width:78%"></i></div>
+      <div class="grid cols4" style="margin-top:14px">
         <div class="kpi"><div class="muted">Runway</div><div class="v">6.7 mo</div></div>
         <div class="kpi"><div class="muted">Margin</div><div class="v">28%</div></div>
         <div class="kpi"><div class="muted">Payment issues</div><div class="v">0 / 12m</div></div>
@@ -177,14 +195,15 @@
   </section>
 </div>
 
-<!-- Form -->
+<!-- FORM -->
 <section id="view-form" class="container section hidden">
-  <div class="row" style="justify-content:space-between;margin-bottom:6px">
+  <div class="row" style="justify-content:space-between;margin-bottom:10px">
     <div class="h2" style="margin:0">Start with your numbers</div>
     <button class="btn btn-ghost" onclick="go('how')">How scoring works →</button>
   </div>
 
   <div class="grid cols2">
+    <!-- Left form -->
     <div class="card">
       <label>Company name</label><input id="f-companyName" type="text" placeholder="Acme GmbH">
       <label>Legal form</label>
@@ -208,30 +227,33 @@
         <div><label>Industry</label><input id="f-industry" type="text"></div>
       </div>
 
-      <div class="row" style="margin-top:14px">
+      <div class="row" style="margin-top:16px">
         <button class="btn btn-primary" onclick="go('report')">Generate report</button>
         <button class="btn btn-ghost" onclick="loadExample()">Load example</button>
       </div>
-      <p class="muted" style="margin-top:8px">Tip: меняй цифры — предпросмотр справа обновляется мгновенно.</p>
+      <!-- Tip removed as просили -->
     </div>
 
-    <div class="card">
+    <!-- Right live preview (fixed layout) -->
+    <aside class="card" aria-label="Live preview">
       <div class="h3">Live preview</div>
-      <div class="grid cols2" style="margin-top:10px">
+
+      <div class="grid" style="margin-top:12px; gap:12px">
         <div class="kpi"><div class="muted">Score</div><div class="v" id="prev-score">—</div></div>
         <div class="kpi"><div class="muted">Grade</div><div class="v" id="prev-grade">—</div></div>
         <div class="kpi"><div class="muted">Runway</div><div class="v" id="prev-runway">—</div></div>
         <div class="kpi"><div class="muted">Margin</div><div class="v" id="prev-margin">—</div></div>
       </div>
-      <div style="margin-top:12px">
+
+      <div style="margin-top:14px">
         <div class="muted">Strength bar</div>
         <div class="progress"><i id="prev-bar" style="width:0%"></i></div>
       </div>
-    </div>
+    </aside>
   </div>
 </section>
 
-<!-- Report -->
+<!-- REPORT -->
 <section id="view-report" class="container section hidden">
   <div class="row" style="justify-content:space-between">
     <button class="btn btn-ghost" onclick="go('form')">← Edit data</button>
@@ -279,18 +301,18 @@
     <div class="grid cols2">
       <div class="card">
         <div class="h3">Risk flags</div>
-        <ul id="r-risks" class="bullets"></ul>
+        <ul id="r-risks" style="padding-left:22px;color:#334155;font-size:16px;line-height:1.6"></ul>
       </div>
       <div class="card">
         <div class="h3">Recommendations</div>
-        <ul id="r-tips" class="bullets"></ul>
+        <ul id="r-tips" style="padding-left:22px;color:#334155;font-size:16px;line-height:1.6"></ul>
       </div>
     </div>
 
     <!-- Methodology -->
     <div class="card">
       <div class="h3">Methodology & assumptions</div>
-      <ul class="bullets">
+      <ul style="padding-left:22px;color:#334155;font-size:16px;line-height:1.6">
         <li>Composite score (0–900) across liquidity, profitability, payment history, leverage, company age.</li>
         <li>Runway = average bank balance ÷ monthly burn (capped at 24 months if profitable).</li>
         <li>Profit margin = (revenue − expenses) ÷ revenue. Lower utilization and clean payment history improve score.</li>
@@ -310,66 +332,56 @@
     </div>
   </div>
 
-  <div class="page-card muted">Client-side demo. Data stays in your browser.</div>
+  <div class="card muted">Client-side demo. Data stays in your browser.</div>
 </section>
 
-<!-- Info pages (full look) -->
-<section id="view-how" class="container section hidden">
-  <div class="page-card">
-    <div class="h2">How it works</div>
-    <ol class="bullets">
-      <li><b>Provide inputs.</b> Revenue, expenses, bank balance, company age, missed payments, utilization.</li>
-      <li><b>Local scoring.</b> Transparent, rules-based model in your browser (no server calls).</li>
-      <li><b>Composite score.</b> 0–900 across five pillars.</li>
-      <li><b>Readable report.</b> Narrative summary, pillars, flags, actions.</li>
-      <li><b>Integrate later.</b> In Puls, connect bank feeds and export/share.</li>
-    </ol>
+<!-- INFO PAGES — full blocks & larger type -->
+<section id="view-how" class="container page hidden">
+  <div class="cluster">
+    <div class="block"><div class="title">Provide inputs</div><p class="text">Revenue, expenses, bank balance, company age, missed payments, utilization.</p></div>
+    <div class="block"><div class="title">Local scoring</div><p class="text">Transparent, rules-based model runs entirely in your browser — no server calls in this demo.</p></div>
+    <div class="block"><div class="title">Composite score</div><p class="text">0–900 across five pillars with a readable grade and narrative summary.</p></div>
+    <div class="block"><div class="title">Actionable report</div><p class="text">Pillars, risk flags, concrete recommendations and partner offers.</p></div>
+    <div class="block"><div class="title">Integrate later</div><p class="text">In Puls, connect bank feeds for live data, export or share with advisors.</p></div>
   </div>
 </section>
 
-<section id="view-data" class="container section hidden">
-  <div class="page-card">
-    <div class="h2">Data used</div>
-    <ul class="bullets">
-      <li><b>Financials:</b> Monthly revenue, Monthly expenses, Average bank balance</li>
-      <li><b>Credit profile:</b> Missed payments (12m), Credit utilization (%), Active loans (count)</li>
-      <li><b>Context:</b> Legal form, Industry, Company age (months)</li>
-      <li><b>Derived:</b> Profit margin, Cash runway, Composite score & grade</li>
-    </ul>
+<section id="view-data" class="container page hidden">
+  <div class="cluster">
+    <div class="block"><div class="title">Financials</div><p class="text">Monthly revenue, Monthly expenses, Average bank balance.</p></div>
+    <div class="block"><div class="title">Credit profile</div><p class="text">Missed payments (12m), Credit utilization (%), Active loans (count).</p></div>
+    <div class="block"><div class="title">Context</div><p class="text">Legal form, Industry, Company age (months).</p></div>
+    <div class="block"><div class="title">Derived</div><p class="text">Profit margin, Cash runway, Composite score & grade.</p></div>
   </div>
 </section>
 
-<section id="view-security" class="container section hidden">
-  <div class="page-card">
-    <div class="h2">Security</div>
-    <ul class="bullets">
-      <li><b>Local-only demo:</b> All calculations client-side; no data transmitted.</li>
-      <li><b>Future:</b> TLS in transit, AES-256 at rest, role-based access.</li>
-      <li><b>Minimization:</b> Collect only fields required for scoring.</li>
-      <li><b>GDPR-first:</b> Clear consent, purpose limitation, retention controls.</li>
-    </ul>
+<section id="view-security" class="container page hidden">
+  <div class="cluster">
+    <div class="block"><div class="title">Local-only demo</div><p class="text">All calculations happen client-side; no data leaves your browser.</p></div>
+    <div class="block"><div class="title">Future hardening</div><p class="text">TLS in transit, AES-256 at rest, role-based access in Puls.</p></div>
+    <div class="block"><div class="title">Data minimization</div><p class="text">Collect only what’s required for scoring. You control what you share.</p></div>
+    <div class="block"><div class="title">GDPR-first</div><p class="text">Clear consent, purpose limitation, and retention controls.</p></div>
   </div>
 </section>
 
-<section id="view-imprint" class="container section hidden">
-  <div class="page-card">
-    <div class="h2">Imprint</div>
-    <p><b>Puls GmbH</b><br/>Sample Street 12, 10115 Berlin, Germany</p>
-    <p>Managing Director: D. Danilevich</p>
-    <p>Contact: hello@puls.example</p>
-    <p>Register Court: Amtsgericht Berlin • HRB 000000 • VAT ID: DE000000000</p>
-    <p class="muted">This website is a demo and does not constitute financial advice.</p>
+<section id="view-imprint" class="container page hidden">
+  <div class="block" style="grid-column:1/-1">
+    <div class="title">Imprint</div>
+    <p class="text"><b>Puls GmbH</b><br/>Sample Street 12, 10115 Berlin, Germany</p>
+    <p class="text">Managing Director: D. Danilevich<br/>Contact: hello@puls.example</p>
+    <p class="text">Register Court: Amtsgericht Berlin • HRB 000000 • VAT ID: DE000000000</p>
+    <p class="text" style="color:#6b7280">This website is a demo and does not constitute financial advice.</p>
   </div>
 </section>
 
-<section id="view-privacy" class="container section hidden">
-  <div class="page-card">
-    <div class="h2">Privacy Policy</div>
-    <p><b>Scope.</b> This prototype does not send any personal data to a server. All calculations occur locally.</p>
-    <p><b>Data you enter.</b> Used solely to render your report. Reload clears your data.</p>
-    <p><b>Cookies & tracking.</b> No analytics or third-party trackers in this demo.</p>
-    <p><b>Your rights.</b> In the full Puls product: access, rectification, deletion, portability (GDPR).</p>
-    <p><b>Contact.</b> privacy@puls.example</p>
+<section id="view-privacy" class="container page hidden">
+  <div class="block" style="grid-column:1/-1">
+    <div class="title">Privacy Policy</div>
+    <p class="text"><b>Scope.</b> This prototype does not send any personal data to a server. All calculations occur locally.</p>
+    <p class="text"><b>Data you enter.</b> Used solely to render your report. Reload clears your data.</p>
+    <p class="text"><b>Cookies & tracking.</b> No analytics or third-party trackers in this demo.</p>
+    <p class="text"><b>Your rights.</b> In the full Puls product: access, rectification, deletion, portability (GDPR).</p>
+    <p class="text"><b>Contact.</b> privacy@puls.example</p>
   </div>
 </section>
 
